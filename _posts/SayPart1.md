@@ -1,0 +1,141 @@
+﻿## "Say" Command Part I: A Simple Timer
+
+```bash
+$ say -v Amelie "Dit que le mieux est l'ennemi du bien."
+```
+**TL;DR**: here's a link to the finished [timer.sh](https://gist.github.com/JamesAnthonyLow/b5442ce9cbe1567efdba719d17b86f32) script
+
+Like many of us in the age of social media I am easily sidetracked from the task at hand.  I am temper-mentally lazy, but I can often harness my tendency towards distraction to accomplish  more than I originally intended.  Let this blog entry be a case in point.  I started out with the intention to simply [write for 5 minutes](http://juliacameronlive.com/basic-tools/morning-pages/).  I sat down, opened up my terminal, booted a [vim](https://memegenerator.net/img/instances/500x/67261012/when-you-a-vim-user-and-you-havent-told-anyone-in-five-minutes.jpg) session and attempted to scribble down my thoughts, however I was quickly confronted with the following problem: **I had no timer**.  
+
+Okay so this isn't entirely true, it's 2018 and timers are everywhere, in our phones, smartwatches, microwaves, and of course I could have just used the [Google timer](https://www.google.com/search?q=google+timer&oq=google+timer&aqs=chrome..69i57j0l5.1434j0j4&sourceid=chrome&ie=UTF-8) but as a follower of [the Unix way](http://www.catb.org/esr/writings/unix-koans/end-user.html) I couldn't help but see this moment as an opportunity to exercise my scripting chops.
+
+The algorithm for a timer is simple:
+
+```pseudo
+let start <- (Current Time in Seconds)
+let duration <- (Duration in Seconds)
+loop 
+	let time_elapsed <- (start - (Current Time in Seconds))
+	alert user if (time_elapsed >= duration)
+end
+```
+Assign the current time in seconds to a variable and then loop, checking the time elapsed in each iteration, if the time elapsed is greater than your intended duration then alert the user.  There is no need to break out of the loop because that's the beauty of Bash scripts, you can just kill them with ```Ctrl+c``` and in terms of user experience I think it makes sense if the timer alerts the user repeatedly until they choose to kill the script.
+
+Now, onto the question of how to obtain the current time in seconds in our script.  After some quick googling I discovered the [```$SECONDS```](https://unix.stackexchange.com/a/53851) variable, an [internal variable](http://tldp.org/LDP/abs/html/internalvariables.html) present in Bash that represents the number of seconds since a script has been running.  Since our timer only needs to know relative time this is the perfect tool for the job.   In fact, having a utility that tells us the time since our script started eliminates the need for separate **start** and **time_elapsed** variables, shortening our algorithm to:
+```pseudo
+let duration <- (Duration in Seconds)
+loop 
+	alert user if ((Time Elapsed in Seconds) >= duration)
+end
+```
+The first version of the script looked like this:
+```bash
+duration=${1:-300} # assign first argument or default to 300s
+while true; do
+	if [ $SECONDS -ge $(($duration)) ]; then
+		echo "Timer done!"
+	fi
+done
+```
+You might notice the [double parentheses](http://tldp.org/LDP/abs/html/dblparens.html) ``$(())`` around the ```$duration``` variable.  This is an important construct in Bash that ensures our variables will be evaluated arithmetically. 
+
+Great! Now we have a simple script that accepts an argument for duration and prints **"Timer done!"** to the screen when the time has elapsed. So we're done right?  Well, our timer isn't very usable.  Without a better alert system we have to watch the console intently for the **"Timer done!"** message and we won't be able to focus on whatever we are working on.  The whole point of setting timers is that they are effectively asynchronous from the perspective of the user, and as far as most hearing capable humans go, audio is a much more effective interrupt device.
+
+My first attempt involved a Google search for "make noise bash" which yielded a [StackOverflow post](https://stackoverflow.com/a/1143400) on making a beep noise from the command line.  This is achieved using the ```echo``` command and the control character ```^G```:
+```bash
+$ echo ^G
+```
+```^G``` is typed by pressing ```Ctrl+v``` followed by ```Ctrl+g```.
+
+Using this knowledge I wrote the following second draft:
+```bash
+duration=${1:-300}
+while true; do
+	if [ $SECONDS -ge $(($duration)) ]; then
+		echo ^G
+	fi
+done
+```
+This was a major improvement but I was still unsatisfied.  The beep achieved by ```echo ^G``` is soft and easily drowned out by music, also it's just an annoying noise.  In search of a more rich scripted audio experience from the terminal I stumbled upon Mac OSX's  [```say```](https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/say.1.html) command.
+
+The ```say``` command leverages Mac's [speech](http://www.csuohio.edu/disability/voiceover-and-text-speech-for-mac-os-x) utility to convert text into speech.  A clone of ```say``` is also available for Ubuntu by installing the package [gnustep-gui-runtime](https://askubuntu.com/a/501917) from the official repositories.  Say is incredibly intuitive and using it is as simple as giving it a string of text as an argument:
+```bash
+$ say "Hello World!"
+```
+On Mac you can even play with different voice options (listed under **System Preferences > Accessibility > Speech**):
+```bash
+$ say -v Kate    "Hello London!"    # English (UK) female
+$ say -v Nicolas "Bonjour Québec!"  # French (Canada) male
+$ say -v Alice   "Ciao Roma!"       # Italian female
+```
+There are many choices of languages and nationalities including some fun novelty voices:
+```bash
+$ say -v Pipe Organ "dee dum dee dummm deee deee deee"
+$ say -v Cellos     "Not exactly Yo-Yo Ma"
+$ say -v Deranged   "What could this voice possibly be for?"
+```
+Finally we can add some pizzazz to our timer:
+```bash
+duration=${1:-300}
+while true; do
+	if [ $SECONDS -ge $(($duration)) ]; then
+		say "Timer done!"
+	fi
+done
+```
+Add some option parsing with [getopts](http://wiki.bash-hackers.org/howto/getopts_tutorial), portability with the aid of the [command](https://stackoverflow.com/a/26759734) utility, and [Bash functions](https://stackoverflow.com/a/6212408) to clean it up and you get the current finished product:
+```bash
+#!/bin/bash
+print_help(){
+  echo "Welcome to Simple Timer!"
+  echo "-t <Duration in seconds> (defaults to 300s)"
+  echo "-v <Voice>"
+  exit 0
+}
+
+alert_user(){
+  local voice=$1
+  if [ -x "$(command -v say)" ] # If system has "say"
+  then say $voice "Timer done!"
+  else echo ^G # Otherwise do "beep"
+  fi
+}
+
+is_done(){
+  local duration=$1
+  echo $SECONDS -gt $(($duration-1))
+}
+
+timer(){
+  local duration=$1
+  local voice=$2
+  while true; do
+    if [ $(is_done $duration) ]; then alert_user $voice; fi
+  done
+}
+
+# Parse options
+while getopts ":v::t::h" opt; do
+  case $opt in
+    h)
+      print_help
+      ;;
+    v)
+      voice="-v$OPTARG"
+      ;;
+    t)
+      duration=$OPTARG
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument."
+      exit 1
+      ;;
+  esac
+done
+
+timer ${duration:-300} $voice
+```
+
+If you read this far thanks for your time! I hope you enjoyed reading this blog post as much as I enjoyed writing it and if you have any comments or questions feel free to email me at [JamesALowenthal@gmail.com](mailto:jamesalowenthal@gmail.com) or Tweet me at [@JamesAnthonyLow](https://www.twitter.com/JamesAnthonyLow).
+
+Currently this blog is being hosted on [GitHub Pages](https://pages.github.com/), if you have any recommendations for good platforms just reach out and let me know!

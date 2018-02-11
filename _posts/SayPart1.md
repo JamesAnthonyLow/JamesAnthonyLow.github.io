@@ -1,4 +1,8 @@
-﻿## "Say" Command Part I: A Simple Timer
+﻿---
+layout: post
+title: "Say" Command Part I: A Simple Timer
+---
+## "Say" Command Part I: A Simple Timer
 
 ```bash
 $ say -v Amelie "Dit que le mieux est l'ennemi du bien."

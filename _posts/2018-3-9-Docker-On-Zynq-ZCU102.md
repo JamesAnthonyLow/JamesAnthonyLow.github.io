@@ -246,7 +246,9 @@ Security options  --->
 ```bash
 $ petalinux-config -c rootfs
 ```
+
 Once again it is important you include all of the [dependencies required by Docker](https://docs.docker.com/install/linux/docker-ce/binaries/#prerequisites) including **update-rc.d** in order to enable running the Docker daemon at boot:
+
 ```
 Filesystem Packages  --->
     base  --->
@@ -271,7 +273,9 @@ Filesystem Packages  --->
         iptables  -->
             [*] iptables
 ```
+
 Here are some other packages I recommend you include:
+
 ```
 Filesystem Packages  --->
     admin  --->
@@ -319,7 +323,9 @@ Filesystem Packages  --->
              [*] packagegroup-core-buildessential
         
 ```
+
 **Save** and **exit**.
+
 
 5. Finally it is time to build! This step can be somewhat time consuming especially the first time before Petalinux has had the chance to chance any of the outputs:
 ```bash

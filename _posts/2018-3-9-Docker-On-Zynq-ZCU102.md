@@ -27,12 +27,19 @@ You can find more information regarding the building of the **petalinux** image 
 ##### Instructions:
 
  1. Load **petalinux:latest** image:
+		
 		- **With Docker Hub:**
+			
 			- pull image from docker hub --> ```docker pull jamesanthonylow/petalinux:2017.1```
+			
 			- tag image as **petalinux:latest** --> ```docker tag jamesanthonylow/petalinux:2017.1 petalinux:latest```
+		
 		- **Without Docker Hub:**
+			
 			- obtain ```petalinux.tar``` from a secure source.
+			
 			- load the ```petalinux.tar``` as a docker image --> ```docker load -i petalinux.tar``` 
+		
  2. Check that the image was loaded properly:
  ```bash
  $ docker images

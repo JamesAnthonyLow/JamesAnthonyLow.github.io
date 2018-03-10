@@ -4,17 +4,24 @@ This guide is meant to serve as a walk-through regarding the use of the [Xilinx 
 - Email [JamesALowenthal@gmail.com](mailto:jamesalowenthal@gmail.com) if you have any further questions
 
 Docker can most easily be explained as "```chroot``` on steroids".  If you have never used ```chroot```, it is a Linux utility that allows you to run an interactive shell with the root directory of your choice.  So if you had a hard-disk with a completely different Linux OS on it than the one on your host you could "enter" the file-system of that OS using ```chroot``` (given you are running the same architecture and kernel).  Docker utilizes this concept to produce "file-system images" called "Docker images" that can be packaged with various dependencies for a specific application.  The beauty of this is that you can configure your Docker image with whatever it needs to run an application and easily reproduce it in a variety of environments.  This approach and Docker in general was and is intended primarily for web developers  to reduce variability between development and production machines, however it can also be incredibly useful as a method to streamline the process of getting dependencies onto an embedded machine.  This is important in the case of the Zynq because it allows us to use Xilinx's Linux custom distribution to get the most functionality out of the Zynq's specialized architecture while gaining access to the richer tools and package managers of distributions such as Ubuntu or Arch.  Furthermore, we can use Docker to improve our Xilinx workflow on our host machines by producing Docker images for the various Xilinx SDKs.  The lengthy download and build times and squirrelly dependencies can make these SDKs a nightmare to install **especially on air-gapped machines**, however we can circumvent this with Docker.  We can adopt a **build once, use often** approach by having one developer go through the install process from within a Docker container, save and then distribute the image of that container.  
+
 ## Table of Contents
  1. [Installing Petalinux 2017.1 on Host Machine](#installing-petalinux-2017.1-on-host-machine)
  2. [Build Linux for the Zynq ZCU102 using the Xilinx BSP](#build-linux-for-the-zynq-zcu102-using-the-xilinx-bsp)
  3. [Installing Docker on an Air-Gapped 64-bit Linux Machine](#installing-docker-on-an-air-gapped-64-bit-linux-machine)
+ 
 ## Installing Petalinux 2017.1 On Host Machine
+
 #### Method 1: Install Natively Without Docker (Not Recommended)
+
 ##### Requirements:
  - [Petalinux v 2017.1 Installer (7.54 GB)](https://www.xilinx.com/member/forms/download/xef.html?filename=petalinux-v2017.1-final-installer.run&akdm=1) 
+ 
  ##### Instructions:
  See [Petalinux documentation](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2017_1/ug1144-petalinux-tools-reference-guide.pdf)
+ 
  #### Method 2: Install Using Docker (Preferred)
+ 
  ##### Requirements:
  - [jamesanthonylow/petalinux:latest (if you can access Docker Hub ~40 GB)]() OR [petalinux.tar (if you can't access Docker Hub ~40 GB)]() (available by request only)
  - [run.sh (4.0 KB)](https://raw.githubusercontent.com/JamesAnthonyLow/docker-xilinx-petalinux-desktop/master/run.sh)

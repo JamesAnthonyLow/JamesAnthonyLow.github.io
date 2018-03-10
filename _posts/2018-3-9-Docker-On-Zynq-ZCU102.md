@@ -397,7 +397,9 @@ Proceed to the next step to install Docker on the Zynq ZCU102.
  4. [cgroupfs-mount (4.0 KB) *If needed](https://raw.githubusercontent.com/tianon/cgroupfs-mount/master/cgroupfs-mount)
  5. [update-rc.d (already installed)](http://manpages.ubuntu.com/manpages/xenial/en/man8/update-rc.d.8.html)
  
+ 
  ##### Instructions (all steps can be performed as root without the ```sudo``` command)
+ 
  
  1. First check to make sure that your kernel satisfies the requirements for Docker by running check-config.sh:
 ```bash

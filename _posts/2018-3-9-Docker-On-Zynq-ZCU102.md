@@ -419,8 +419,8 @@ $ mv docker/* /usr/bin
 ```
 5. Test Docker daemon:
 ```bash
-root$ dockerd&
-root$ docker info # should report a successful connection
+$ dockerd&
+$ docker info # should report a successful connection
 ```
 6. (**If cgroup hierarchy failed initially**) move the **cgroupfs-mount** script into ```/etc/init.d``` and enable using **update-rc.d**:
 ```bash

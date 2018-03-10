@@ -48,7 +48,7 @@ You can find more information regarding the building of the **petalinux** image 
  ```bash
  $ docker images
  REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
- petalinux   		 latest        	     00f0a1152c7b        19 hours ago        42.3GB
+ petalinux   		 latest        	 00f0a1152c7b        19 hours ago        42.3GB
  ```
 3. Create Petalinux work directory with workspace subdirectory \<My petalinux work\>/workspace:
 ```bash

@@ -1,11 +1,14 @@
 This guide is meant to serve as a walk-through regarding the use of the [Xilinx Petalinux tools](http://www.wiki.xilinx.com/PetaLinux?responseToken=03e1bb67ae0bfe14ce7c225634ac9f676) to configure and build [Xilinx Linux](https://github.com/Xilinx/linux-xlnx) for the [Zynq ZCU102](https://www.xilinx.com/products/boards-and-kits/ek-u1-zcu102-g.html).   The reader will also learn how to use [Docker](https://www.docker.com/) both on the PC and Zynq for the purpose of performing [containerized development](https://www.infoworld.com/article/3204171/linux/what-is-docker-linux-containers-explained.html).
+
 ### Docker: What and Why?
+
 - [A Not Very Short Introduction To Docker](https://blog.jayway.com/2015/03/21/a-not-very-short-introduction-to-docker/)
 - Email [JamesALowenthal@gmail.com](mailto:jamesalowenthal@gmail.com) if you have any further questions
 
 Docker can most easily be explained as "```chroot``` on steroids".  If you have never used ```chroot```, it is a Linux utility that allows you to run an interactive shell with the root directory of your choice.  So if you had a hard-disk with a completely different Linux OS on it than the one on your host you could "enter" the file-system of that OS using ```chroot``` (given you are running the same architecture and kernel).  Docker utilizes this concept to produce "file-system images" called "Docker images" that can be packaged with various dependencies for a specific application.  The beauty of this is that you can configure your Docker image with whatever it needs to run an application and easily reproduce it in a variety of environments.  This approach and Docker in general was and is intended primarily for web developers  to reduce variability between development and production machines, however it can also be incredibly useful as a method to streamline the process of getting dependencies onto an embedded machine.  This is important in the case of the Zynq because it allows us to use Xilinx's Linux custom distribution to get the most functionality out of the Zynq's specialized architecture while gaining access to the richer tools and package managers of distributions such as Ubuntu or Arch.  Furthermore, we can use Docker to improve our Xilinx workflow on our host machines by producing Docker images for the various Xilinx SDKs.  The lengthy download and build times and squirrelly dependencies can make these SDKs a nightmare to install **especially on air-gapped machines**, however we can circumvent this with Docker.  We can adopt a **build once, use often** approach by having one developer go through the install process from within a Docker container, save and then distribute the image of that container.  
 
 ## Table of Contents
+
  1. [Installing Petalinux 2017.1 on Host Machine](#installing-petalinux-2017.1-on-host-machine)
  2. [Build Linux for the Zynq ZCU102 using the Xilinx BSP](#build-linux-for-the-zynq-zcu102-using-the-xilinx-bsp)
  3. [Installing Docker on an Air-Gapped 64-bit Linux Machine](#installing-docker-on-an-air-gapped-64-bit-linux-machine)
@@ -65,7 +68,9 @@ $ cd <My petalinux work> && ./run.sh
 Repeat step 5 anytime you want to do some Petalinux work, for example to build Linux for the Zynq ZCU10d in the next section!
 
 ## Build Linux for the Zynq ZCU102 using the Xilinx BSP
+
 ##### Requirements
+
 - [xilinx-zcu102-v2017.1-final.bsp (299.45 MB)](https://www.xilinx.com/member/forms/download/xef.html?filename=xilinx-zcu102-v2017.1-final.bsp&akdm=1)
 - [SD Card (>=32 GB)](https://www.amazon.com/SanDisk-Ultra-Class-Memory-SDSDUNC-032G-GN6IN/dp/B0143RT8OY)
 - [USB SD Card Reader](https://www.amazon.com/UGREEN-Reader-Memory-Windows-Simultaneously/dp/B01EFPX9XA/ref=sr_1_6?s=electronics&ie=UTF8&qid=1517588403&sr=1-6&keywords=sd+card+reader)
@@ -383,6 +388,7 @@ $ pax -rvf rootfs.cpio
 Proceed to the next step to install Docker on the Zynq ZCU102.
 
 ## Installing Docker on an Air-Gapped 64-bit Linux Machine
+
 ##### Requirements
 
  1. [docker-\<version\>-ce.tgz for your architecture (ex. x86_64, aarch64 ~30MB)](https://download.docker.com/linux/static/stable/)

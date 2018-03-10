@@ -15,14 +15,17 @@ Docker can most easily be explained as "```chroot``` on steroids".  If you have 
 #### Method 1: Install Natively Without Docker (Not Recommended)
 
 ##### Requirements:
+
  - [Petalinux v 2017.1 Installer (7.54 GB)](https://www.xilinx.com/member/forms/download/xef.html?filename=petalinux-v2017.1-final-installer.run&akdm=1) 
  
  ##### Instructions:
+ 
  See [Petalinux documentation](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2017_1/ug1144-petalinux-tools-reference-guide.pdf)
  
  #### Method 2: Install Using Docker (Preferred)
  
  ##### Requirements:
+ 
  - [jamesanthonylow/petalinux:latest (if you can access Docker Hub ~40 GB)]() OR [petalinux.tar (if you can't access Docker Hub ~40 GB)]() (available by request only)
  - [run.sh (4.0 KB)](https://raw.githubusercontent.com/JamesAnthonyLow/docker-xilinx-petalinux-desktop/master/run.sh)
  - [Host PC running Docker](https://www.docker.com/community-edition) to install Docker on an air-gapped Linux machine please see the guide [below](#installing-docker-on-an-air-gapped-linux-machine)

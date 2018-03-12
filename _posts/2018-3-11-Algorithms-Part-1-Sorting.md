@@ -2,6 +2,7 @@
 layout: post
 title: Algorithms Part I&#58 Sorting
 ---
+
 Let's talk algorithms.  No I'm not talking about those funky beats produced by Bill Clinton's former [vice president](http://i.imgur.com/Ffs0f.jpg), I'm talking about the rules that define how computer systems work and do what they do!
 
 It is important to have an understanding of what algorithms are at an abstract level.  Often algorithms and code are mistaken for being synonymous but this is actually a conflation of the two.  Code exists to implement algorithms which, as a concept, can be entirely independent from electronics.  Algorithms are simply methods that describe the solution to a problem.  They can be as involved as [Blackjack basic strategy](https://www.blackjackapprenticeship.com/resources/blackjack-strategy-charts/) or as simple as the instructions on a can of [Campbell's chicken noodle soup](https://www.campbellsfoodservice.com/product/campbells-classic-chicken-noodle/). 

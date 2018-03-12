@@ -38,14 +38,6 @@ For each Integer (A) in List Do
 End of Loop
 ```
 
-The complexities of this algorithm in Big O looks like this:
-
-
-| Algorithm | Worst Time | Average Time | Best Time | Worst Space |
-|--|--|--|--|--|
-|Bubble Sort|O(n^2)|O(n^2)|O(n)|O(1)|
-
-
 Using the example of our list ( ```4, 15, 9, 11, 2```) the worst case scenario would be if the list were in the exact reverse order of how we want the list sorted (```15, 11, 9, 4, 2```), the average case cannot really be represented as it's more a representation of how much time this algorithm would take on average with a random grouping of lists in all different states of sorting, the best case is if the list is already sorted (```2, 4, 9, 11, 15```).  In the worst case scenario we would need to loop through the list ```n``` times (```n``` being the number of elements in the list, in this case 5) and then for each element do an additional iteration of the ```n``` elements, leaving a runtime of ```O(n^2)```.   In the best case scenario where the elements are already sorted we would only need to iterate through the list once, leaving our run time simply as ```O(n)```.  To understand the average complexity you need only to remember that Big O drops leading constants. Since the run time of a list that is only partially sorted is always going to be some fraction of ```n^2``` and that fraction gets dropped, this leaves the average run time as ```O(n^2)```.   When speaking of algorithms ```O(n^2)``` is generally regarded as slow, well out-paced by common runtimes such as ```O(nlog(n)), O(n), O(log(n)), and O(1)``` and is faster only than the real sloths ```O(2^n) and O(n!)```.  So, so far Bubble Sort is not looking great.  It's one saving feature is its worst case space complexity which can be expressed as constant ```O(1)``` because no additional space is necessary for this algorithm.  However, there are other sorting algorithms, such as Heap Sort that achieve this feat with faster runtimes and in the age of relatively cheap memory space is usually a secondary priority anyway.  So when do we use Bubble Sort?  This algorithm is little more than a good example for learning, so it's probably best to leave it in CS101 where it belongs.
 
 I'm going to use C for the code examples in this post because it is pretty universally understood, and is the language I am personally most comfortable with:
